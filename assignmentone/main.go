@@ -16,4 +16,6 @@ func main() {
 	fmt.Println(iterativemethods.Secant("x**3 - 2*x - 5", 2, 3, 1e-6, 1000))
 
 	fmt.Println(iterativemethods.FalsePosition("2 * exp(x) * sin(x) - 3", 0, 1, 1e-6, 1000))
+
+	fmt.Println(iterativemethods.Muller("cos(x) - x * exp(x)", -1, 0, 1, 1e-6, 10000))
 }
