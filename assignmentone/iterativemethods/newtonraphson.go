@@ -9,7 +9,8 @@ import (
 
 const maxN = 1000
 
-func NewtonRaphson(expr, dExpr string, x0, tol float64) (float64, error) {
+func NewtonRaphson(expr, dExpr string, x0, tol float64) (float64, error, int) {
+	iterations := 0
 	function := utils.Function{Expression: expr}
 	dFunction := utils.Function{Expression: dExpr}
 
@@ -17,11 +18,12 @@ func NewtonRaphson(expr, dExpr string, x0, tol float64) (float64, error) {
 		x1 := x0 - (function.F(x0) / dFunction.F(x0))
 
 		if math.Abs(x1-x0) <= tol {
-			return x1, nil
+			return x1, nil, iterations
 		}
 
 		x0 = x1
+		iterations++
 	}
 
-	return 0, errors.New("could not converge to root after 1000 iterations")
+	return 0, errors.New("could not converge to root after 1000 iterations"), iterations
 }

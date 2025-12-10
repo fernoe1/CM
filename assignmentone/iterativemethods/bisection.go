@@ -8,14 +8,15 @@ import (
 	"github.com/fernoe1/CM/assignmentone/utils"
 )
 
-func Bisection(expr string, a, b, tol float64, maxN int) (float64, error) {
+func Bisection(expr string, a, b, tol float64, maxN int) (float64, error, int) {
+	iterations := 0
 	function := utils.Function{Expression: expr}
 	n := 1
 	fA := function.F(a)
 	fB := function.F(b)
 
 	if fA*fB >= 0 {
-		return 0, errors.New("no root in given range")
+		return 0, errors.New("no root in given range"), iterations
 	}
 
 	for n <= maxN {
@@ -23,7 +24,7 @@ func Bisection(expr string, a, b, tol float64, maxN int) (float64, error) {
 		fC := function.F(c)
 
 		if math.Abs(fC) < tol || (b-a)/2 < tol {
-			return c, nil
+			return c, nil, iterations
 		}
 
 		if fA*fC < 0 {
@@ -33,7 +34,8 @@ func Bisection(expr string, a, b, tol float64, maxN int) (float64, error) {
 		}
 
 		n++
+		iterations++
 	}
 
-	return 0, fmt.Errorf("no root found after %d iterations", maxN)
+	return 0, fmt.Errorf("no root found after %d iterations", maxN), iterations
 }

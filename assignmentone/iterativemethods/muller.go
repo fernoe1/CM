@@ -7,7 +7,8 @@ import (
 	"github.com/fernoe1/CM/assignmentone/utils"
 )
 
-func Muller(expr string, x0, x1, x2, tol float64, maxN int) (float64, error) {
+func Muller(expr string, x0, x1, x2, tol float64, maxN int) (float64, error, int) {
+	iterations := 0
 	function := utils.Function{Expression: expr}
 	n := 0
 
@@ -36,12 +37,13 @@ func Muller(expr string, x0, x1, x2, tol float64, maxN int) (float64, error) {
 		xn := x2 - (2*c)/denom
 
 		if math.Abs(function.F(xn)) < tol {
-			return xn, nil
+			return xn, nil, iterations
 		}
 
 		x0, x1, x2 = x1, x2, xn
 		n++
+		iterations++
 	}
 
-	return 0, fmt.Errorf("no root found after %d iterations", maxN)
+	return 0, fmt.Errorf("no root found after %d iterations", maxN), iterations
 }
