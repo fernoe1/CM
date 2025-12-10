@@ -11,5 +11,5 @@ func main() {
 
 	fmt.Println(iterativemethods.FixedPoint("cos(x)", 0.5, 1e-6))
 
-	fmt.Println(iterativemethods.NewtonRaphson("x**3 - 2*x - 5", 2, 1e-7))
+	fmt.Println(iterativemethods.NewtonRaphson("x**3 - 2*x - 5", "3*x**2 - 2", 2, 1e-7))
 }
