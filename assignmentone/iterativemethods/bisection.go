@@ -18,7 +18,7 @@ func Bisection(expr string, a, b, tol float64, maxN int) (float64, error) {
 		return 0, errors.New("no root in given range")
 	}
 
-	for n < maxN {
+	for n <= maxN {
 		c := (a + b) / 2
 		fC := function.F(c)
 
@@ -27,9 +27,9 @@ func Bisection(expr string, a, b, tol float64, maxN int) (float64, error) {
 		}
 
 		if fA*fC < 0 {
-			b, c = fB, fC
+			b, fB = c, fC
 		} else {
-			a, c = fA, fC
+			a, fA = c, fC
 		}
 
 		n++
