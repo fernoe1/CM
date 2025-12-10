@@ -10,4 +10,6 @@ func main() {
 	fmt.Println(iterativemethods.Bisection("x**3 - x - 2", 1, 2, 1e-3, 11))
 
 	fmt.Println(iterativemethods.FixedPoint("cos(x)", 0.5, 1e-6))
+
+	fmt.Println(iterativemethods.NewtonRaphson("x**3 - 2*x - 5", 2, 1e-7))
 }

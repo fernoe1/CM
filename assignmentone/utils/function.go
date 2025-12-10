@@ -29,9 +29,23 @@ func (f Function) F(x float64) float64 {
 		},
 	}
 
-	expression, _ := govaluate.NewEvaluableExpressionWithFunctions(f.Expression, functions)
+	expression, err := govaluate.NewEvaluableExpressionWithFunctions(f.Expression, functions)
+	if err != nil {
+		panic(err)
+	}
+
 	parameters := map[string]interface{}{"x": x}
-	result, _ := expression.Evaluate(parameters)
+
+	result, err := expression.Evaluate(parameters)
+	if err != nil {
+		panic(err)
+	}
 
 	return result.(float64)
+}
+
+func (f Function) DerivativeF(x float64) float64 {
+	h := 1e-5
+
+	return (f.F(x+h) - f.F(x-h)) / (2 * h)
 }
