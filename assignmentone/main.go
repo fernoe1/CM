@@ -7,5 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println(iterativemethods.Bisection("x**3 - x - 2", 1, 2, 0.001, 11))
+	fmt.Println(iterativemethods.Bisection("x**3 - x - 2", 1, 2, 1e-3, 11))
+
+	fmt.Println(iterativemethods.FixedPoint("cos(x)", 0.5, 1e-6))
 }
