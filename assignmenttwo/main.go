@@ -3,54 +3,63 @@ package main
 import (
 	"fmt"
 
-	"github.com/fernoe1/CM/assignmenttwo/utils"
+	"github.com/fernoe1/CM/assignmenttwo/directmethods"
+	"github.com/fernoe1/CM/assignmenttwo/iterativemethods"
 )
 
 func main() {
-	m1 := [][]float64{
-		{3.0, 8.0},
-		{4.0, 6.0},
+	A := [][]float64{
+		{10, 2, 1},
+		{2, 10, 3},
+		{1, 3, 10},
 	}
-	m2 := [][]float64{
-		{6.0, 1.0, 1.0},
-		{4.0, -2.0, 5.0},
-		{2.0, 8.0, 7.0},
-	}
-	m3 := [][]float64{
-		{1.0, 3.0, 1.0, 2.0},
-		{5.0, 8.0, 5.0, 3.0},
-		{0.0, 4.0, 0.0, 0.0},
-		{2.0, 3.0, 2.0, 8.0},
-	}
+	b := []float64{9, 15, 14}
+	tol := 1e-6
+	maxIter := 1000
+	omega := 1.0
 
-	Matrix1 := utils.Matrix{
-		Matrix: m1,
-	}
-
-	Matrix2 := utils.Matrix{
-		Matrix: m2,
-	}
-
-	Matrix3 := utils.Matrix{
-		Matrix: m3,
-	}
-
-	d1, err := Matrix1.Det()
+	xCramer, err := directmethods.CramersMethod(A, b)
 	if err != nil {
-		fmt.Println("error", err)
+		fmt.Println("Cramer Error:", err)
 	} else {
-		fmt.Println("The determinant of", m1, "is", d1)
+		fmt.Printf("Cramer: %v\n", xCramer)
 	}
-	d2, err := Matrix2.Det()
+
+	xGauss, err := directmethods.GaussianMethod(A, b)
 	if err != nil {
-		fmt.Println("error", err)
+		fmt.Println("Gaussian Error:", err)
 	} else {
-		fmt.Println("The determinant of", m2, "is", d2)
+		fmt.Printf("Gaussian: %v\n", xGauss)
 	}
-	d3, err := Matrix3.Det()
+
+	xGaussJordan, err := directmethods.GaussJordanMethod(A, b)
 	if err != nil {
-		fmt.Println("error", err)
+		fmt.Println("Gauss-Jordan Error:", err)
 	} else {
-		fmt.Println("The determinant of", m3, "is", d3)
+		fmt.Printf("Gauss-Jordan: %v\n", xGaussJordan)
+	}
+
+	xJacobi, err, iterJacobi := iterativemethods.JacobiMethod(A, b, tol, maxIter)
+	if err != nil {
+		fmt.Println("Jacobi Error:", err)
+	} else {
+		fmt.Printf("Jacobi: %v\n", xJacobi)
+		fmt.Print("Iterations: ", iterJacobi, "\n")
+	}
+
+	xGS, err, iterGaussSeidel := iterativemethods.GaussSeidelMethod(A, b, tol, maxIter)
+	if err != nil {
+		fmt.Println("Gauss-Seidel Error:", err)
+	} else {
+		fmt.Printf("Gauss-Seidel: %v\n", xGS)
+		fmt.Print("Iterations: ", iterGaussSeidel, "\n")
+	}
+
+	xSOR, err, iterRelaxation := iterativemethods.RelaxationMethod(A, b, omega, tol, maxIter)
+	if err != nil {
+		fmt.Println("Relaxation Error:", err)
+	} else {
+		fmt.Printf("Relaxation: %v\n", xSOR)
+		fmt.Print("Iterations: ", iterRelaxation, "\n")
 	}
 }
