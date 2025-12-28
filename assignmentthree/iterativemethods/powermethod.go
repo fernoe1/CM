@@ -46,19 +46,21 @@ func rayleighQuotient(A [][]float64, x []float64) float64 {
 	return num / den
 }
 
-func PowerMethod(A [][]float64, x []float64, tol float64, maxN uint64) (float64, []float64, error) {
+func PowerMethod(A [][]float64, x []float64, tol float64, maxN uint64) (float64, []float64, error, int) {
+	counter := 0
 	n := len(A)
 	if n == 0 || len(A[0]) != n {
-		return 0, nil, errors.New("matrix must be square")
+		return 0, nil, errors.New("matrix must be square"), counter
 	}
 	if len(x) != n {
-		return 0, nil, errors.New("initial vector size mismatch")
+		return 0, nil, errors.New("initial vector size mismatch"), counter
 	}
 
 	xk := normalize(x)
 	var lambda float64
 
 	for k := uint64(0); k < maxN; k++ {
+		counter++
 		y := utils.MatVecMul(A, xk)
 
 		xk1 := normalize(y)
@@ -73,12 +75,12 @@ func PowerMethod(A [][]float64, x []float64, tol float64, maxN uint64) (float64,
 			}
 		}
 		if diff < tol {
-			return lambdaNext, xk1, nil
+			return lambdaNext, xk1, nil, counter
 		}
 
 		xk = xk1
 		lambda = lambdaNext
 	}
 
-	return lambda, xk, nil
+	return lambda, xk, nil, counter
 }

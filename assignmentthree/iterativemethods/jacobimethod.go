@@ -22,7 +22,8 @@ func maxOffDiagonal(A [][]float64) (int, int, float64) {
 	return p, q, maxVal
 }
 
-func JacobiMethod(A [][]float64, tol float64) (eigenvalues []float64, eigenvectors [][]float64) {
+func JacobiMethod(A [][]float64, tol float64) (eigenvalues []float64, eigenvectors [][]float64, counter int) {
+	counter = 0
 	n := len(A)
 	V := utils.Identity(n)
 
@@ -35,6 +36,7 @@ func JacobiMethod(A [][]float64, tol float64) (eigenvalues []float64, eigenvecto
 	}
 
 	for {
+		counter++
 		p, q, maxOff := maxOffDiagonal(D)
 		if maxOff < tol {
 			break
@@ -59,7 +61,7 @@ func JacobiMethod(A [][]float64, tol float64) (eigenvalues []float64, eigenvecto
 		eigenvalues[i] = D[i][i]
 	}
 
-	return eigenvalues, V
+	return eigenvalues, V, counter
 }
 
 func applyRotation(A, V [][]float64, p, q int, c, s float64) {

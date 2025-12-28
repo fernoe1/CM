@@ -25,12 +25,13 @@ func main() {
 		{0.0408, 0.0204, 0.0612},
 	}
 	tol := 1e-6
-	B_iter := iterativemethods.IterativeMethod(A, B0, tol)
+	B_iter, iterCounter := iterativemethods.IterativeMethod(A, B0, tol)
 
 	fmt.Println("\nIterative Method - Inverse Approximation:")
 	for _, row := range B_iter {
 		fmt.Println(row)
 	}
+	fmt.Println("Iterative Method Iterations:", iterCounter)
 
 	B_lu, err := directmethods.LUFactorization(A)
 	if err != nil {
@@ -43,18 +44,20 @@ func main() {
 	}
 
 	x0 := []float64{1, 1, 1}
-	lambda, vec, err := iterativemethods.PowerMethod(A, x0, tol, 100)
+	lambda, vec, err, powerCounter := iterativemethods.PowerMethod(A, x0, tol, 100)
 	if err != nil {
 		fmt.Println("Power Method Error:", err)
 	} else {
 		fmt.Println("\nPower Method - Dominant Eigenvalue:", lambda)
 		fmt.Println("Corresponding Eigenvector:", vec)
+		fmt.Println("Power Method Iterations:", powerCounter)
 	}
 
-	eigenvalues, eigenvectors := iterativemethods.JacobiMethod(A, tol)
-	fmt.Println("\nJacobi Method - Eigenvalues:", eigenvalues)
-	fmt.Println("Jacobi Method - Eigenvectors:")
+	eigenvalues, eigenvectors, jacobiCounter := iterativemethods.JacobiMethod(A, tol)
+	fmt.Println("\nJacobi Method Eigenvalues:", eigenvalues)
+	fmt.Println("Jacobi Method Eigenvectors:")
 	for _, row := range eigenvectors {
 		fmt.Println(row)
 	}
+	fmt.Println("Jacobi Method Iterations:", jacobiCounter)
 }
